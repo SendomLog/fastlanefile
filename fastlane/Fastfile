@@ -1,0 +1,94 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+# https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+# https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update _fastlane
+
+default_platform(:ios)
+
+platform :ios do
+    desc "测试包"
+    lane :debugTest do
+        build_app(
+                  # 每次打包之前clean一下
+                  clean: true,
+                  # 打包出ipa文件路径
+                  output_directory: './fastlane/build',
+                  # 打包的名称
+                  output_name: 'PPC.ipa',
+                  # 项目的scheme
+                  scheme: 'PPC',
+                  # 默认Release，Release or Debug
+                  configuration: 'Debug',
+                  # 是否包含bitcode 根据自己项目的实际情况到buildsetting查看
+                  include_bitcode:true,
+                  # 是否包含symbols
+                  include_symbols: true,
+                  # 打包导出方式，包含app-store, validation, ad-hoc, package, enterprise, development, developer-id and mac-application
+                  # 我们这里是上传蒲公英 所以就选择ad-hoc
+                  export_method: 'ad-hoc',
+                  # 这个设置是为了设置xcode自动配置证书和配置文件，当然也可以手动配置
+                  export_xcargs: '-allowProvisioningUpdates'
+                  )
+				  str = "******测试包******\n" + changelog_from_git_commits(commits_count:10)                  # mac上的通知弹窗，通知打包完毕
+                  notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
+                  # 上传IPA到蒲公英
+				  pgyer(api_key: "f5046aff4d3653da82f50cefae55329c", update_description: str)
+    end
+
+	desc "生产包"
+    lane :releaseTest do
+        build_app(
+                  # 每次打包之前clean一下
+                  clean: true,
+                  # 打包出ipa文件路径
+                  output_directory: './fastlane/build',
+                  # 打包的名称
+                  output_name: 'PPC.ipa',
+                  # 项目的scheme
+                  scheme: 'PPC',
+                  # 默认Release，Release or Debug
+                  configuration: 'Release',
+                  # 是否包含bitcode 根据自己项目的实际情况到buildsetting查看
+                  include_bitcode:true,
+                  # 是否包含symbols
+                  include_symbols: true,
+                  # 打包导出方式，包含app-store, validation, ad-hoc, package, enterprise, development, developer-id and mac-application
+                  # 我们这里是上传蒲公英 所以就选择ad-hoc
+                  export_method: 'ad-hoc',
+                  # 这个设置是为了设置xcode自动配置证书和配置文件，当然也可以手动配置
+                  export_xcargs: '-allowProvisioningUpdates'
+                  )
+				  str = "******生产包******\n" + changelog_from_git_commits(commits_count:10)
+                  # mac上的通知弹窗，通知打包完毕
+                  notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
+                  # 上传IPA到蒲公英
+				  pgyer(api_key: "f5046aff4d3653da82f50cefae55329c", update_description: str)
+    end
+	desc "测试action"
+	lane :actionTest do
+		str = "******生产包******\n" + changelog_from_git_commits(commits_count:10)
+		notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
+	end
+	desc "测试erp"
+	lane :erpTest do
+		erb(
+			template: "1.erb",
+			destination: "./fastlane/build",
+			placeholders: {
+			  :var1 => 123,
+			  :var2 => "string",
+			  :var3 => ["element1", "element2"]
+			}
+		  )
+	end
+end
