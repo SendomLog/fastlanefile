@@ -18,12 +18,13 @@ default_platform(:ios)
 platform :ios do
     desc "测试包"
     lane :debugTest do
-		str = "******测试包******\n" + changelog_from_git_commits(commits_count:10)                  # mac上的通知弹窗，通知打包完毕
+		str = "******测试包******\n" + changelog_from_git_commits(commits_count:10)
+		info_path = "#{__dir__}/package_info.json"
 		hash_value = {
             info: str
         }
         write_json(
-                   file_path: "#{__dir__}/package_info.json",
+                   file_path: info_path,
                    hash: hash_value
                    )
         build_app(
@@ -50,6 +51,12 @@ platform :ios do
                   notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
                   # 上传IPA到蒲公英
                   pgyer(api_key: "f5046aff4d3653da82f50cefae55329c", update_description: str)
+				  reset_git_repo(
+					force: true,
+					files: [
+						info_path
+					]
+				  )
     end
     
     desc "生产包"

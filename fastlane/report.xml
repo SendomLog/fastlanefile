@@ -5,32 +5,37 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000169">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000192">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="1: changelog_from_git_commits" time="0.03118">
+      <testcase classname="fastlane.lanes" name="1: changelog_from_git_commits" time="0.025947">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="2: write_json" time="0.000697">
+      <testcase classname="fastlane.lanes" name="2: write_json" time="0.001092">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="3: build_app" time="143.035325">
+      <testcase classname="fastlane.lanes" name="3: build_app" time="141.515065">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="4: notification" time="0.261533">
+      <testcase classname="fastlane.lanes" name="4: notification" time="0.30113">
         
       </testcase>
     
       
-      <testcase classname="fastlane.lanes" name="5: pgyer" time="19.61872">
+      <testcase classname="fastlane.lanes" name="5: pgyer" time="28.971998">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: reset_git_repo" time="0.05023">
         
       </testcase>
     
