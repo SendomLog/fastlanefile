@@ -18,6 +18,14 @@ default_platform(:ios)
 platform :ios do
     desc "测试包"
     lane :debugTest do
+		str = "******测试包******\n" + changelog_from_git_commits(commits_count:10)                  # mac上的通知弹窗，通知打包完毕
+		hash_value = {
+            info: str
+        }
+        write_json(
+                   file_path: "#{__dir__}/package_info.json",
+                   hash: hash_value
+                   )
         build_app(
                   # 每次打包之前clean一下
                   clean: true,
@@ -39,13 +47,12 @@ platform :ios do
                   # 这个设置是为了设置xcode自动配置证书和配置文件，当然也可以手动配置
                   export_xcargs: '-allowProvisioningUpdates'
                   )
-				  str = "******测试包******\n" + changelog_from_git_commits(commits_count:10)                  # mac上的通知弹窗，通知打包完毕
                   notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
                   # 上传IPA到蒲公英
-				  pgyer(api_key: "f5046aff4d3653da82f50cefae55329c", update_description: str)
+                  pgyer(api_key: "f5046aff4d3653da82f50cefae55329c", update_description: str)
     end
-
-	desc "生产包"
+    
+    desc "生产包"
     lane :releaseTest do
         build_app(
                   # 每次打包之前clean一下
@@ -68,27 +75,38 @@ platform :ios do
                   # 这个设置是为了设置xcode自动配置证书和配置文件，当然也可以手动配置
                   export_xcargs: '-allowProvisioningUpdates'
                   )
-				  str = "******生产包******\n" + changelog_from_git_commits(commits_count:10)
+                  str = "******生产包******\n" + changelog_from_git_commits(commits_count:10)
                   # mac上的通知弹窗，通知打包完毕
                   notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
                   # 上传IPA到蒲公英
-				  pgyer(api_key: "f5046aff4d3653da82f50cefae55329c", update_description: str)
+                  pgyer(api_key: "f5046aff4d3653da82f50cefae55329c", update_description: str)
     end
-	desc "测试action"
-	lane :actionTest do
-		str = "******生产包******\n" + changelog_from_git_commits(commits_count:10)
-		notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
-	end
-	desc "测试erp"
-	lane :erpTest do
-		erb(
-			template: "1.erb",
-			destination: "./fastlane/build",
-			placeholders: {
-			  :var1 => 123,
-			  :var2 => "string",
-			  :var3 => ["element1", "element2"]
-			}
-		  )
-	end
+    desc "测试action"
+    lane :actionTest do
+        str = "******生产包******\n" + changelog_from_git_commits(commits_count:10)
+        notification(app_icon: './fastlane/icon.png', title: 'manager', subtitle: '打包成功，已导出安装包', message: str)
+    end
+    desc "测试erp"
+    lane :erpTest do
+        erb(
+            template: "1.erb",
+            destination: "./fastlane/build",
+            placeholders: {
+            :var1 => 123,
+            :var2 => "string",
+            :var3 => ["element1", "element2"]
+            }
+            )
+    end
+    desc "测试json"
+    lane :jsonTest do
+		str = "******测试包******\n" + changelog_from_git_commits(commits_count:10)
+		hash_value = {
+            info: str
+        }
+        write_json(
+                   file_path: "#{__dir__}/package_info.json",
+                   hash: hash_value
+                   )
+    end
 end
