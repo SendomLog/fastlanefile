@@ -44,7 +44,7 @@ platform :ios do
                   include_symbols: true,
                   # 打包导出方式，包含app-store, validation, ad-hoc, package, enterprise, development, developer-id and mac-application
                   # 我们这里是上传蒲公英 所以就选择ad-hoc
-                  export_method: 'ad-hoc',
+                  export_method: 'development',
                   # 这个设置是为了设置xcode自动配置证书和配置文件，当然也可以手动配置
                   export_xcargs: '-allowProvisioningUpdates'
                   )
